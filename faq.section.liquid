@@ -1,0 +1,208 @@
+{% comment %}
+OG CodePen: https://codepen.io/niDzolski/pen/qBPPYyN
+
+Adapted to Shopify by github@adalbertopc
+{% endcomment %}
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<div class="page-width">
+  <div class='faq'>
+    {% for block in section.blocks %}
+    {% if block.type == 'category' %}
+    <h1 class="global-label-text">
+      {{block.settings.category}}
+    </h1>
+    {% endif %}
+    {% if block.type == 'heading' %}
+    <h3 class="faq-heading">{{block.settings.title}}</h3>
+    {% endif %}
+    {% if block.type == 'question' %}
+    <div class="faq-container">
+      <div class="faq-label">
+        <div class="faq-label-icon">
+          <span class="material-icons">
+            expand_more
+          </span>
+        </div>
+        <div class="faq-label-text">
+          {{block.settings.title}}
+        </div>
+      </div>
+      <div class="faq-answer ">
+        <div class="faq-answer-content">
+          {{block.settings.content}}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+	{% endfor %}
+  </div>
+</div>
+<style>
+  .faq {
+    padding: 20px;
+    width: 100%;
+    margin: auto;
+    position: relative;
+    height: auto;
+  }
+
+  .faq-container {
+    width: 100%;
+    height: 100%;
+
+  }
+  
+  .faq-heading{
+    font-family: icomoon,sans-serif;
+    color: #000;
+	font-size: 1.5em;
+    font-weight: bold;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 20px 15px;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .faq-label {
+    cursor: pointer;
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .faq-label-text {
+    color: #000;
+    font-size: 16px;
+
+  }
+
+  .faq-label-icon {
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .material-icons {
+    color: #000;
+    transition: 0.3s ease;
+  }
+
+  .faq-answer {
+    transition: 0.3s ease;
+    margin-top: 15px;
+    height: 0;
+    color: #000;
+    overflow: hidden;
+  }
+  
+  .faq-answer:not(.active) {
+    margin-top: 0;
+  }
+
+  .faq-answer-content {
+    padding: 10px 0 10px 15px;
+  }
+
+  .active {
+
+    background: #FFFFFF;
+    height: auto;
+    margin-bottom: 25px;
+
+  }
+  .rotate{
+    transform: rotate(180deg)
+  }
+
+  .global-label-text{
+    text-size-adjust: 100%;
+    font-style: normal;
+    line-height: 1.5;
+    font-family: icomoon,sans-serif;
+    color: #000000;
+    box-sizing: border-box!important;
+    -webkit-font-smoothing: antialiased;
+    font-weight: inherit;
+    padding: 30px 15px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 36px;
+    margin: 0px;
+  }
+  
+  
+
+</style>
+
+<script>
+  (function(){
+    let faqLabel=document.querySelectorAll(".faq-label");
+    faqLabel.forEach(item=>item.onclick=()=>{
+        item.nextElementSibling.classList.toggle('active');
+        let labelIcon=item.firstElementChild;
+        let icons=labelIcon.firstElementChild;
+        icons.classList.toggle('rotate');
+  })
+
+
+  })()
+</script>
+
+{% schema %}
+{
+  "name":"FAQ",
+  "settings":[
+    
+  ],
+  "blocks":[
+    {
+      "type":"question",
+      "name":"Question",
+      "settings":[
+        {
+          "type":"text",
+          "id":"title",
+          "label":"Title",
+          "default":"Title"
+        },
+        {
+          "type":"richtext",
+          "id":"content",
+          "label":"Content",
+          "default":"<p>Your content here</p>"
+        }
+      ]
+    },
+    {
+      "type":"heading",
+      "name":"Heading",
+      "settings":[
+        {
+          "type":"text",
+          "id":"title",
+          "label":"Title",
+          "default":"Title"
+        }
+      ]
+    },
+    {
+      "type":"category",
+      "name":"Category",
+      "settings":[
+        {
+          "type":"text",
+          "id":"category",
+          "label":"Category Title",
+          "default":"Category Title"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
